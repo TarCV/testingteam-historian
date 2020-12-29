@@ -15,11 +15,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with TestingTeam-Historian.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.github.tarcv.testingteam.historian.extractors
+package com.github.tarcv.testingteam.historian.reporters
 
 import com.github.tarcv.testingteam.historian.FullResult
-import com.github.tarcv.testingteam.historian.PartialResult
+import java.io.File
+import java.util.stream.Stream
 
-interface ResultExtractor {
-    operator fun invoke(result: PartialResult): List<FullResult>?
+interface Reporter {
+    fun render(list: Stream<FullResult>, outputFile: File)
 }

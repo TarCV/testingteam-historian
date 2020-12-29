@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700|Roboto+Mono:400,700" rel="stylesheet">
+    <title id="title">Report</title>
+    <style>
+        button, html, input, select, textarea {
+            font-family: Roboto,"Helvetica Neue",sans-serif;
+        }
+
+        table {
+            border-collapse:separate;
+            border-spacing: 0;
+            border:solid #ECEFF1 1px;
+            border-radius:6px;
+            -moz-border-radius:6px;
+        }
+
+        td, th {
+            border-left:solid #ECEFF1 1px;
+            border-top:solid #ECEFF1 1px;
+            min-height: 33px;
+            min-width: 33px;
+        }
+
+        .status::before {
+            width: 100%;
+            height: 100%;
+            content: '';
+            left: 0;
+            position: absolute;
+            top: 0;
+            z-index: 0;
+        }
+        .failure::before {
+            background-color: #e57373;
+        }
+
+        .not-run::before {
+            background-color: transparent;
+        }
+
+        .success::before {
+            background-color: #81c784;
+        }
+        .warning::before {
+            background-color: #dce775;
+        }
+
+        .failure, .not-run, .success, .warning {
+            border-left: solid transparent 1px;
+            border-top: solid transparent 1px;
+            padding-bottom: 1px;
+        }
+
+        th {
+            border-top: solid #ECEFF1 1px;
+            border-bottom: none;
+        }
+
+        tr#first_row th, tr#first_row td {
+            border-top: none;
+        }
+        td:first-child, th:first-child {
+            border-left: none;
+        }
+
+        /* vertical hover */
+        table {
+            overflow: hidden;
+        }
+        td, th {
+            position: relative;
+        }
+        td.status:hover::after, th.status:not(:empty):hover::after,
+        td.status:focus::after, th.status:not(:empty):focus::after {
+            content: '';
+            height: 10000px;
+            left: 0;
+            position: absolute;
+            top: -5000px;
+            width: 100%;
+            z-index: -1;
+        }
+        td.status:hover::after, th.status:hover::after {
+            background-color: #ECEFF1;
+        }
+
+        .status a
+        {
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<table aria-describedby="title">
+    {{#pools~}}
+    <tr{{#if @first}} id="first_row"{{/if}}>
+        <th scope="colgroup" colspan="5">{{pool}}</th>
+    </tr>
+    <tr>
+        <th scope="row">Runs:</th>
+        {{~#each results}}{{#if @first~}}
+        {{~#results}}
+        <th scope="col"><a href="{{runLink}}">{{run}}</a></th>
+        {{~/results}}
+        {{~/if}}{{/each}}
+    </tr>
+    {{~#results}}
+    <tr class="test">
+        <th scope="row">{{testName}}</th>
+        {{#each results~}}
+        {{#eq (capitalize status) 'NO_EXECUTION'}}<td aria-label="not executed" class="not-run status"><a href="{{resultLink}}">&nbsp;</a></td>
+        {{else~}}{{#eq (capitalize status) 'ERRORED'}}<td aria-label="error" class="error status"><a href="{{resultLink}}">&nbsp;</a></td>
+        {{else~}}{{#eq (capitalize status) 'FAILED'}}<td aria-label="failure" class="failure status"><a href="{{resultLink}}">&nbsp;</a></td>
+        {{else~}}{{#eq (capitalize status) 'PASSED_WITH_WARNING'}}<td aria-label="success with warnings" class="warning status"><a href="{{resultLink}}">&nbsp;</a></td>
+        {{else~}}{{#eq (capitalize status) 'PASSED'}}<td aria-label="success" class="success status"><a href="{{resultLink}}">&nbsp;</a></td>
+        {{else~}}<td aria-label="unknown status" class="status"><a href="{{resultLink}}">?</a></td>
+        {{~/eq~}}{{~/eq~}}{{~/eq~}}{{~/eq~}}{{~/eq~}}
+        {{~/each}}
+    </tr>
+    {{~/results}}
+    {{~/pools}}
+    {{~#each pools}}{{#if @last}}
+    <tfoot>
+        <tr>
+            <th scope="row">Runs:</th>
+            {{~#each results}}{{#if @first~}}
+                {{~#results}}
+                    <th scope="col"><a href="{{runLink}}">{{run}}</a></th>
+                {{~/results}}
+            {{~/if}}{{/each}}
+        </tr>
+    </tfoot>
+    {{~/if}}{{~/each}}
+</table>
+</body>
+</html>

@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.10"
     application
 }
 
@@ -15,6 +16,9 @@ version = "0.1-SNAPSHOT"
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url = uri("https://dl.bintray.com/pdvrieze/maven")
+    }
 }
 
 dependencies {
@@ -23,6 +27,11 @@ dependencies {
 
     implementation("dev.nohus:AutoKonfig:1.0.0")
     implementation(kotlin("reflect"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
+    implementation("net.devrieze:xmlutil:0.80.1")
+    implementation("net.devrieze:xmlutil-serialization-jvm:0.80.1")
+    implementation("com.github.jknack:handlebars:4.1.2")
 
     testImplementation("junit:junit:4.13.1")
     testImplementation(kotlin("test-junit"))

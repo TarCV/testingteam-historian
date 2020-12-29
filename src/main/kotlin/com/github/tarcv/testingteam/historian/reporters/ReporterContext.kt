@@ -15,11 +15,10 @@
  *   You should have received a copy of the GNU General Public License
  *   along with TestingTeam-Historian.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.github.tarcv.testingteam.historian.extractors
+package com.github.tarcv.testingteam.historian.reporters
 
-import com.github.tarcv.testingteam.historian.FullResult
-import com.github.tarcv.testingteam.historian.PartialResult
+import com.github.tarcv.testingteam.historian.Renderer
 
-interface ResultExtractor {
-    operator fun invoke(result: PartialResult): List<FullResult>?
-}
+data class ReporterContext(
+    val renderer: Renderer
+)
