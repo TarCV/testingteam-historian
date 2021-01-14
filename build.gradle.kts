@@ -13,6 +13,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 group = "com.github.TarCV.testing-team"
 version = "0.1-SNAPSHOT"
 
+application {
+    mainClass.set("com.github.tarcv.testingteam.historian.Historian")
+}
+
 repositories {
     mavenCentral()
     jcenter()
