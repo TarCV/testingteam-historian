@@ -33,19 +33,20 @@
             top: 0;
             z-index: 0;
         }
+        .error::before {
+            background-color: #ff0000;
+        }
         .failure::before {
-            background-color: #e57373;
-        }
-
-        .not-run::before {
-            background-color: transparent;
-        }
-
-        .success::before {
-            background-color: #81c784;
+            background-color: #df9a75;
         }
         .warning::before {
             background-color: #dce775;
+        }
+        .success::before {
+            background-color: #81c784;
+        }
+        .not-run::before {
+            background-color: transparent;
         }
 
         .status {
