@@ -1,0 +1,21 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: test
+    image: gradle:jdk11
+    commands:
+      - ./gradlew assembleDist check
+
+  - name: release
+    image: plugins/github-release
+    settings:
+      api_key:
+        from_secret: github_token
+      draft: true
+      files: build/distributions/*
+      checksum:
+        - sha256
+        - sha512
+    when:
+      event: tag

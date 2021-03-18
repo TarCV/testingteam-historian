@@ -17,6 +17,7 @@
  */
 package com.github.tarcv.testingteam.historian
 
+import com.github.tarcv.testingteam.historian.extractors.ResultExtractor
 import org.junit.Test
 import java.nio.file.Paths
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -34,12 +35,12 @@ class FileScannerTest {
 
         val results = ConcurrentLinkedQueue<PartialResult>() // avoid interfering with concurrent streams in FileScanner
         val index = AtomicInteger()
-        fun extractor(it: PartialResult): List<FullResult> {
-            results.add(it)
+        val extractor = ResultExtractor { result ->
+            results.add(result)
             val count = index.incrementAndGet()
-            val extracted = FullResult(count.toString(), "", "", "", Status.PASSED, it.path)
-            return MutableList(count) { extracted }
-                .plus(FullResult("", "", "", "", Status.NO_EXECUTION, it.path))
+            val extracted = FullResult(count.toString(), "", "", "", Status.PASSED, result.path)
+            MutableList(count) { extracted }
+                .plus(FullResult("", "", "", "", Status.NO_EXECUTION, result.path))
                 .shuffled(random)
         }
 
@@ -52,10 +53,10 @@ class FileScannerTest {
 
         // ACT:
         val output = FileScanner(
-            pathRegex = Regex("(?<run>[^/]+)/foo/bar/(?<suite>[^/]+)/.*"),
+            pathRegex = Regex("(?<run>[^/]+)/foo/bar/(?<executorPool>[^/]+)/.*"),
             dataExtractors = listOf(
-                { null },
-                ::extractor
+                ResultExtractor { null },
+                extractor
             )
         ).read(inputPaths)
             .collect(Collectors.toList())
