@@ -11,7 +11,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 group = "com.github.TarCV.testing-team"
-version = "0.1-SNAPSHOT"
+version = "0.1"
 
 application {
     mainClass.set("com.github.tarcv.testingteam.historian.Historian")
@@ -26,7 +26,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
 
     implementation("dev.nohus:AutoKonfig:1.0.0")
