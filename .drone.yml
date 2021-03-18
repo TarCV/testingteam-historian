@@ -1,0 +1,8 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: test
+    image: gradle:jdk11
+    commands:
+      - ./gradlew assembleDist check
